@@ -54,8 +54,8 @@ public class Answer : MonoBehaviour
 
         CurrentNoteObject = GameObject.Find("Canvas_Bg/note_1");  
         NoteNameObject = GameObject.Find("Canvas_Bg/Note name");  
-        CorrectSignObject = GameObject.Find("Canvas_Front/correct sign");  
-        WrongSignObject = GameObject.Find("Canvas_Front/wrong sign");  
+        CorrectSignObject = GameObject.Find("Canvas_Bg/correct sign");  
+        WrongSignObject = GameObject.Find("Canvas_Bg/wrong sign");  
 
         Input_1 = GameObject.Find("Canvas_Front/String Input");
         Input_2 = GameObject.Find("Canvas_Front/Finger Input"); 
