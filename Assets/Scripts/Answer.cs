@@ -205,6 +205,8 @@ public class Answer : MonoBehaviour
         if(outcome){
             GameState = (int)State.Correct;
         } else {
+            GameData.WrongPoint++;
+            Debug.Log("here: " + GameData.WrongPoint);
             GameState = (int)State.Wrong;
         }
     }
@@ -216,7 +218,7 @@ public class Answer : MonoBehaviour
             GameObject.Find("RecordManager").GetComponent<Record>().CurrentQuestionID++;
             quest();
         } else {
-            print("EXIT");
+            exit();
         }
         
 
@@ -274,6 +276,10 @@ public class Answer : MonoBehaviour
         
     }
 
+    void exit(){
+        print("Exit");
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -309,7 +315,8 @@ public class Answer : MonoBehaviour
         else if(GameState == (int)State.Wrong){
             WrongSignObject.SetActive(true);
             CorrectSignObject.SetActive(false);
-           
+
+            
         } 
         else if(GameState == (int)State.Correct){
             CorrectSignObject.SetActive(true);
