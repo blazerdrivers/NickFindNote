@@ -24,8 +24,8 @@ public class Answer : MonoBehaviour
     }; 
     
     private int g_positionY = -28;
-    bool isWrong = false;
-    bool isCorrect = true;
+    //bool isWrong = false;
+    //bool isCorrect = true;
 
     string Answer_1;
     int Answer_2;
