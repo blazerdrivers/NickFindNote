@@ -210,10 +210,17 @@ public class Answer : MonoBehaviour
     }
 
     public void nextfunction(){
+        print(GameObject.Find("RecordManager").GetComponent<Record>().MaxNumOfQuestion);
+        print( GameObject.Find("RecordManager").GetComponent<Record>().CurrentQuestionID);
+        if(GameObject.Find("RecordManager").GetComponent<Record>().MaxNumOfQuestion >  GameObject.Find("RecordManager").GetComponent<Record>().CurrentQuestionID){
+            GameObject.Find("RecordManager").GetComponent<Record>().CurrentQuestionID++;
+            quest();
+        } else {
+            print("EXIT");
+        }
+        
 
-        GameObject.Find("RecordManager").GetComponent<Record>().CurrentQuestionID++;
-
-        quest();
+        
     }
 
     void quest(){
@@ -221,7 +228,7 @@ public class Answer : MonoBehaviour
         initNodes();
         RandomSet.Clear();
         if(G_On){
-            Debug.Log("G is on");
+            //Debug.Log("G is on");
             for(int i=0; i<=4; i++){
                 RandomSet.Add(i);
                 
