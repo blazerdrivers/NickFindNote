@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class Answer : MonoBehaviour
 {
@@ -44,8 +46,15 @@ public class Answer : MonoBehaviour
 
     public GameObject Next_Button;
 
+    public Canvas OptionPageObject;
+    public bool G_On;
+    public bool D_On;
+    public bool A_On;
+    public bool E_On;
 
     int currentNote;
+
+    public List<int> RandomSet;
 
     // Start is called before the first frame update
     void Start()
@@ -65,8 +74,9 @@ public class Answer : MonoBehaviour
         Line_minustwo = GameObject.Find("Canvas_Bg/line -2");
 
         Next_Button = GameObject.Find("Canvas_Front/Next Button");
+        OptionPageObject = GameObject.Find("Canvas_Option").GetComponent<Canvas>();
 
-
+        initNodes();
         initGame();
     }
 
@@ -79,8 +89,18 @@ public class Answer : MonoBehaviour
         Line_plusone.SetActive(false);
         Line_minusone.SetActive(false);
         Line_minustwo.SetActive(false);
+    
+        OptionPageObject.enabled = false;  
+          
 
         Next_Button.GetComponent<Button>().interactable = false;
+    }
+
+    void initNodes(){
+        G_On = GameObject.Find("OptionController").GetComponent<Option>().Use_GString;
+        D_On = GameObject.Find("OptionController").GetComponent<Option>().Use_DString;
+        A_On = GameObject.Find("OptionController").GetComponent<Option>().Use_AString;
+        E_On = GameObject.Find("OptionController").GetComponent<Option>().Use_EString;
     }
 
     void freshGame(){
@@ -139,10 +159,10 @@ public class Answer : MonoBehaviour
     void DisplayNote(int note){
 
         if(note >= 15) {
-
+            
             Line_plusone.SetActive(true);
             Line_minusone.SetActive(false);
-            Line_minustwo.SetActive(false);
+            Line_minustwo.SetActive(false); 
 
         } else if (note <= 3 && note > 1){
             Line_plusone.SetActive(false);
@@ -185,36 +205,91 @@ public class Answer : MonoBehaviour
     }
 
     public void nextfunction(){
+        quest();
+    }
+
+    void quest(){
+        Debug.Log("in quest");
+        initNodes();
+        RandomSet.Clear();
+        if(G_On){
+            Debug.Log("G is on");
+            for(int i=0; i<=4; i++){
+                RandomSet.Add(i);
+                
+            }    
+        } 
+        if(D_On){
+            for(int i=5; i<=8; i++){
+                RandomSet.Add(i);
+            }
+            if(!G_On) {
+                RandomSet.Add(4);
+                //print("here0");
+            }
+        }
+        if(A_On){
+            for(int i=9; i<=12; i++){
+                RandomSet.Add(i);
+            } 
+            if(!D_On) {
+                RandomSet.Add(8);
+                //print("here1");
+            }   
+        }
+        if(E_On){
+            for(int i=13; i<=16; i++){
+                RandomSet.Add(i);
+            }    
+            if(!A_On) {
+                RandomSet.Add(12);
+
+            } 
+        }
+        
         CurrentNoteObject.SetActive(true);
-        int random_pick_note = Random.Range(0, 16);
-        Debug.Log("pick note: " + random_pick_note );
+        //Debug.Log("RandomSet: " + RandomSet.Count);
+
+        int random_pick_note = RandomSet[(Random.Range(0, RandomSet.Count))];
+        Debug.Log("pick note number: " + random_pick_note );
+        //Debug.Log("actul note get: " + RandomSet)
         DisplayNote(random_pick_note);
+        
         GameState = 0;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyUp(KeyCode.Q)){
+            if(!OptionPageObject.enabled)
+                OptionPageObject.enabled = true;
+            else 
+                OptionPageObject.enabled = false;
+        }
         if(GameState == (int)State.idle){
 
             //Debug.Log("Waiting for answer...");
             freshGame();
             if(Input.GetKeyUp(KeyCode.X))
             {
-                 Debug.Log("Press x!");
+                 //Debug.Log("Press x!");
                  GameState = (int)State.Start;
             }
 
         }
         else if(GameState == (int)State.Start){
+            /*
             CurrentNoteObject.SetActive(true);
-            int random_pick_note = Random.Range(0, 16);
+            int random_pick_note = Random.Range(0, 17); // Random.Range is [min, max) !!
             Debug.Log("pick note: " + random_pick_note );
 
             DisplayNote(random_pick_note);
 
             GameState = 0;
+            */
+            quest();
         }
         else if(GameState == (int)State.Wrong){
             WrongSignObject.SetActive(true);
