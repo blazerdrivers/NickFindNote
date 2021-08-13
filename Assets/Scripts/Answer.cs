@@ -52,9 +52,13 @@ public class Answer : MonoBehaviour
     public bool A_On;
     public bool E_On;
 
+    int CurID;
+
     int currentNote;
 
     public List<int> RandomSet;
+
+    public Record RecordScript;
 
     // Start is called before the first frame update
     void Start()
@@ -101,6 +105,9 @@ public class Answer : MonoBehaviour
         D_On = GameObject.Find("OptionController").GetComponent<Option>().Use_DString;
         A_On = GameObject.Find("OptionController").GetComponent<Option>().Use_AString;
         E_On = GameObject.Find("OptionController").GetComponent<Option>().Use_EString;
+
+        
+
     }
 
     void freshGame(){
@@ -121,7 +128,7 @@ public class Answer : MonoBehaviour
         } else if (note/4 == 1){
             if(str == "d" && fing == note%4){
                 return true;
-            } else if (str == "g" && fing == 4){
+            } else if (str == "g" && fing == 4 && note%4 == 0){
                 return true;
             } else {
                 return false;
@@ -129,7 +136,7 @@ public class Answer : MonoBehaviour
         } else if (note/4 == 2){ // in a string
             if(str == "a" && fing == note%4){
                 return true;
-            } else if (str == "d" && fing == 4){
+            } else if (str == "d" && fing == 4 && note%4 == 0){
                 return true;
             } else {
                 return false;
@@ -137,15 +144,13 @@ public class Answer : MonoBehaviour
         } else if (note/4 == 3){
             if(str == "e" && fing == note%4){
                 return true;
-            } else if (str == "a" && fing == 4){
+            } else if (str == "a" && fing == 4 && note%4 == 0){
                 return true;
             }
             else return false;
             
         } else if (note/4 == 4){
             if(str == "e" && fing == 4){
-                return true;
-            } else if (str == "a" && fing == 4){
                 return true;
             } else return false;
         } else {
@@ -205,6 +210,9 @@ public class Answer : MonoBehaviour
     }
 
     public void nextfunction(){
+
+        GameObject.Find("RecordManager").GetComponent<Record>().CurrentQuestionID++;
+
         quest();
     }
 
